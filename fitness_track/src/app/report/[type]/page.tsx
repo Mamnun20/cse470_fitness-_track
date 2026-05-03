@@ -195,7 +195,10 @@ const Page = () => {
             </button>
             {
                 showCalorieIntakePopup &&
-                <CalorieIntakePopup setShowCalorieIntakePopup={setShowCalorieIntakePopup} />
+                <CalorieIntakePopup
+                    setShowCalorieIntakePopup={setShowCalorieIntakePopup}
+                    dateData={dataS1?.xAxis?.data || []}
+                />
             }    
 
         </div>

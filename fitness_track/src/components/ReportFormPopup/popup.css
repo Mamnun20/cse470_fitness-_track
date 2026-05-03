@@ -10,3 +10,79 @@
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
 }
+
+.datepicker-month {
+    text-align: center;
+    color: black;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.popupbox {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: white;
+    width: 550px;
+    max-height: 80%;
+    padding: 20px;
+    border-radius: 10px;
+    overflow:scroll;
+}
+
+.popupbox .hrline {
+    width: 100%;
+    height: 1px;
+    background-color: var(--coll);
+    margin: 20px 0px;
+}
+
+.popupbox .items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+}
+
+.popupbox .items .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popupbox .items .item h3 {
+    font-size: 13px;
+    font-weight: 500;
+    width: 100%;
+    text-align: left;
+}
+
+.popupbox .items .item button {
+    background-color: var(--coll);
+    color: blue;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.popupbox .close {
+    background-color: red;
+    color: var(--coll);
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 0;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    transition: 0.3s;
+    z-index: 1001;
+}
