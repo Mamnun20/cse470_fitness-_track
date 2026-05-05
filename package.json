@@ -1,0 +1,24 @@
+{
+  "name": "cse470_fitness-_track",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000c\u0000s\u0000e\u00004\u00007\u00000\u0000\r\u0000 \u0000#\u0000 \u0000f\u0000i\u0000t\u0000n\u0000e\u0000s\u0000s\u0000_\u0000t\u0000r\u0000a\u0000c\u0000k\u0000\r\u0000 \u0000#\u0000 \u0000c\u0000s\u0000e\u00004\u00007\u00000\u0000_\u0000p\u0000r\u0000o\u0000j\u0000e\u0000c\u0000t\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mamnun20/cse470_fitness-_track.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Mamnun20/cse470_fitness-_track/issues"
+  },
+  "homepage": "https://github.com/Mamnun20/cse470_fitness-_track#readme",
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}
