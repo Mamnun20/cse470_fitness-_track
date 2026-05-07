@@ -35,7 +35,7 @@
 .popupbox .hrline {
     width: 100%;
     height: 1px;
-    background-color: var(--coll);
+    background-color: var(--col1);
     margin: 20px 0px;
 }
 
@@ -60,7 +60,7 @@
 }
 
 .popupbox .items .item button {
-    background-color: var(--coll);
+    background-color: var(--col1);
     color: blue;
     border: none;
     border-radius: 5px;
@@ -72,7 +72,7 @@
 
 .popupbox .close {
     background-color: red;
-    color: var(--coll);
+    color: var(--col1);
     width: 40px;
     height: 40px;
     border: none;

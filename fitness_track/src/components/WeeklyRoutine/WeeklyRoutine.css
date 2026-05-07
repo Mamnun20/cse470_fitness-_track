@@ -1,0 +1,191 @@
+.routine-section {
+    max-width: 900px;
+    margin: 25px auto;
+    padding: 0 15px;
+}
+
+.routine-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.routine-header h2 {
+    color: var(--col1);
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.routine-header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.guides-link {
+    background: transparent;
+    border: 1px solid var(--col1);
+    color: var(--col1);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.guides-link:hover {
+    background: var(--col1);
+    color: #000;
+}
+
+.edit-routine-btn {
+    background: var(--col1);
+    color: #000;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.edit-routine-btn:hover {
+    background: #d4a81d;
+}
+
+.routine-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #111;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.routine-table th {
+    background: #1a1a1a;
+    color: var(--col1);
+    padding: 10px 6px;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 2px solid #222;
+}
+
+.routine-table td {
+    padding: 8px 4px;
+    text-align: center;
+    vertical-align: top;
+    border-right: 1px solid #1a1a1a;
+}
+
+.routine-table td:last-child {
+    border-right: none;
+}
+
+.day-workouts {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+}
+
+.workout-tag {
+    background: rgba(189, 148, 24, 0.2);
+    color: var(--col1);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.rest-tag {
+    color: #555;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+}
+
+.workout-checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: flex-start;
+}
+
+.workout-checkboxes label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #aaa;
+    font-size: 11px;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: 0.15s;
+    width: 100%;
+}
+
+.workout-checkboxes label.selected {
+    color: var(--col1);
+    background: rgba(189, 148, 24, 0.1);
+}
+
+.workout-checkboxes input[type="checkbox"] {
+    accent-color: var(--col1);
+    width: 13px;
+    height: 13px;
+}
+
+.editor-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.save-btn {
+    background: var(--col1);
+    color: #000;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.save-btn:hover {
+    background: #d4a81d;
+}
+
+.save-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.cancel-btn {
+    background: #333;
+    color: #ccc;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.cancel-btn:hover {
+    background: #444;
+}
+
+.no-routine {
+    color: #666;
+    text-align: center;
+    padding: 25px;
+    font-style: italic;
+}

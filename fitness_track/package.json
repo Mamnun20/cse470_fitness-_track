@@ -15,7 +15,9 @@
     "@mui/joy": "^5.0.0-beta.52",
     "@mui/material": "^7.3.10",
     "@mui/x-charts": "^8.28.2",
+    "@mui/x-date-pickers": "^6.20.2",
     "date-fns": "^4.1.0",
+    "dayjs": "^1.11.20",
     "next": "16.2.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -25,8 +27,8 @@
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "babel-plugin-react-compiler": "1.0.0",
     "typescript": "^5"
   }

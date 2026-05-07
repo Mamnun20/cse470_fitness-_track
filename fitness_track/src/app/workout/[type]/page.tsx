@@ -1,13 +1,16 @@
 'use client'
 import React from 'react'
+import { useParams } from 'next/navigation'
 import './workoutPage.css'
 
-const page = () => {
+const WorkoutPage = () => {
+    const params = useParams()
+    const type = decodeURIComponent(params.type as string)
     const [workout, setWorkout] = React.useState<any>(null)
 
     const getworkout = async () => {
         let data: any = {
-        type: 'Chest',
+        type: type,
         imageUrl: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&q=80',
         durationInMin: 30,
         exercises: [
@@ -42,16 +45,23 @@ const page = () => {
 
     React.useEffect(() => {
         getworkout()
-    }, [])
-    
+    }, [type])
+
+    if (!workout) {
+        return (
+            <div className='workout'>
+                <p style={{ color: 'var(--col1)', fontSize: '1.5rem', padding: '2rem' }}>Loading workout...</p>
+            </div>
+        )
+    }
 
     return (
     <div className='workout'>
-        <h1 className='mainhead1'>{workout?.type} Day</h1>
+        <h1 className='mainhead1'>{workout.type} Day</h1>
 
         <div className='workout__exercises'>
             {
-                workout?.exercises.map((item: any, index: number) => {
+                workout.exercises.map((item: any, index: number) => {
                     return (
                         <div
                             key={item.exercise}
@@ -62,7 +72,7 @@ const page = () => {
                             }>
                             <h3>{index + 1}</h3>
                             <div className='workout__exercise__image'>
-                                <img src={item.videoUrl} alt="" />
+                                <img src={item.videoUrl} alt={item.exercise} />
                             </div>
 
                             <div className='workout__exercise__content'>
@@ -79,4 +89,4 @@ const page = () => {
 )
 }
 
-export default page
+export default WorkoutPage

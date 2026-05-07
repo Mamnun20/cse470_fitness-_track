@@ -1,16 +1,16 @@
+"use client"
 import React from "react"
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useRouter } from 'next/navigation'
 import './homebanner2.css'
 
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-
-// import required modules
 import { Pagination } from 'swiper/modules';
 
 const HomeBanner2 = () => {
+  const router = useRouter()
   const [workouts, setWorkouts] = React.useState<any[] | null>(null)
 
   const getworkouts = async () => {
@@ -102,7 +102,7 @@ const HomeBanner2 = () => {
                         backgroundImage: `url(${item.imageUrl})`,
                     }}
                     onClick={() => {
-                      window.location.href = `/workout/${item.type}`
+                      router.push(`/workout/${encodeURIComponent(item.type)}`)
                     }}
                 >
                       <div className='swiper-slide-content'>

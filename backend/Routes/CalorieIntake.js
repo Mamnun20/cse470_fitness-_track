@@ -26,21 +26,65 @@ router.post('/addcalorieintake', authTokenHandler, async (req, res) => {
     if (!item || !date || !quantity || !quantitytype) {
         return res.status(400).json(createResponse(false, 'Please provide all the details'));
     }
+
+    // Validate quantity is a valid number
+    const parsedQuantity = parseFloat(quantity);
+    if (isNaN(parsedQuantity) || parsedQuantity < 0) {
+        return res.status(400).json(createResponse(false, 'Please provide a valid positive quantity'));
+    }
+
     let qtyingrams = 0;
     if (quantitytype === 'g') {
-        qtyingrams = quantity;
+        qtyingrams = parsedQuantity;
     }
     else if (quantitytype === 'kg') {
-        qtyingrams = quantity * 1000;
+        qtyingrams = parsedQuantity * 1000;
     }
     else if (quantitytype === 'ml') {
-        qtyingrams = quantity;
+        qtyingrams = parsedQuantity;
     }
     else if (quantitytype === 'l') {
-        qtyingrams = quantity * 1000;
+        qtyingrams = parsedQuantity * 1000;
     }
     else {
         return res.status(400).json(createResponse(false, 'Invalid quantity type'));
+    }
+
+    const FALLBACK_CALORIES = {
+        'rice': 130, 'chicken': 239, 'egg': 155, 'bread': 265, 'milk': 42,
+        'banana': 89, 'apple': 52, 'potato': 77, 'pasta': 131, 'beef': 250,
+        'fish': 206, 'cheese': 402, 'yogurt': 59, 'oats': 389, 'butter': 717,
+        'sugar': 387, 'oil': 884, 'chocolate': 546, 'pizza': 266, 'burger': 295,
+        'salad': 20, 'soup': 30, 'noodles': 138, 'corn': 86, 'beans': 347,
+        'lentils': 116, 'tofu': 76, 'shrimp': 99, 'salmon': 208, 'tuna': 132,
+        'pork': 242, 'lamb': 294, 'turkey': 189, 'duck': 337, 'bacon': 541,
+        'sausage': 301, 'ham': 145, 'steak': 271, 'lobster': 89, 'crab': 97,
+        'orange': 47, 'mango': 60, 'grape': 69, 'strawberry': 32, 'watermelon': 30,
+        'pineapple': 50, 'peach': 39, 'pear': 57, 'cherry': 63, 'blueberry': 57,
+        'avocado': 160, 'coconut': 354, 'almond': 579, 'peanut': 567, 'walnut': 654,
+        'carrot': 41, 'broccoli': 34, 'spinach': 23, 'tomato': 18, 'onion': 40,
+        'garlic': 149, 'pepper': 20, 'cucumber': 16, 'cabbage': 25, 'mushroom': 22,
+        'coffee': 2, 'tea': 1, 'juice': 45, 'soda': 41, 'beer': 43, 'wine': 83,
+        'cake': 257, 'cookie': 488, 'ice cream': 207, 'donut': 452, 'pancake': 227,
+        'waffle': 291, 'cereal': 379, 'granola': 471, 'honey': 304, 'jam': 250,
+    };
+
+    async function saveCalorieEntry(caloriesPer100g, userId) {
+        // Validate caloriesPer100g is a valid positive number
+        if (isNaN(caloriesPer100g) || caloriesPer100g <= 0) {
+            throw new Error('Invalid calorie data');
+        }
+        let calorieIntake = (caloriesPer100g / 100) * qtyingrams;
+        const user = await User.findOne({ _id: userId });
+        user.calorieIntake.push({
+            item,
+            date: new Date(date),
+            quantity: parsedQuantity,
+            quantitytype,
+            calorieIntake: Math.round(calorieIntake)
+        });
+        await user.save();
+        return calorieIntake;
     }
 
     var query = item;
@@ -50,38 +94,38 @@ router.post('/addcalorieintake', authTokenHandler, async (req, res) => {
             'X-Api-Key': process.env.NUTRITION_API_KEY,
         },
     }, async function (error, response, body) {
-        if (error) return console.error('Request failed:', error);
-        else if (response.statusCode != 200) return console.error('Error:', response.statusCode, body.toString('utf8'));
-        else {
-            // body :[ {
-            //     "name": "rice",
-            //     "calories": 127.4,
-            //     "serving_size_g": 100,
-            //     "fat_total_g": 0.3,
-            //     "fat_saturated_g": 0.1,
-            //     "protein_g": 2.7,
-            //     "sodium_mg": 1,
-            //     "potassium_mg": 42,
-            //     "cholesterol_mg": 0,
-            //     "carbohydrates_total_g": 28.4,
-            //     "fiber_g": 0.4,
-            //     "sugar_g": 0.1
-            // }]
+        try {
+            if (!error && response.statusCode === 200) {
+                body = JSON.parse(body);
+                if (body && body.length > 0 && typeof body[0].calories === 'number') {
+                    let caloriesPer100g = (body[0].calories / body[0].serving_size_g) * 100;
+                    if (!isNaN(caloriesPer100g) && caloriesPer100g > 0) {
+                        let cal = await saveCalorieEntry(caloriesPer100g, req.userId);
+                        return res.json(createResponse(true, `Calorie intake added (${parseInt(cal)} cal from API)`));
+                    }
+                }
+            }
 
-            body = JSON.parse(body);
-            let calorieIntake = (body[0].calories / body[0].serving_size_g) * parseInt(qtyingrams);
-            const userId = req.userId;
-            const user = await User.findOne({ _id: userId });
-            user.calorieIntake.push({
-                item,
-                date: new Date(date),
-                quantity,
-                quantitytype,
-                calorieIntake: parseInt(calorieIntake)
-            })
+            const itemLower = item.toLowerCase().trim();
+            let matched = FALLBACK_CALORIES[itemLower];
+            if (!matched) {
+                for (const [key, val] of Object.entries(FALLBACK_CALORIES)) {
+                    if (itemLower.includes(key) || key.includes(itemLower)) {
+                        matched = val;
+                        break;
+                    }
+                }
+            }
 
-            await user.save();
-            res.json(createResponse(true, 'Calorie intake added successfully'));
+            if (matched) {
+                let cal = await saveCalorieEntry(matched, req.userId);
+                return res.json(createResponse(true, `Calorie intake added (${parseInt(cal)} cal estimated)`));
+            }
+
+            let cal = await saveCalorieEntry(100, req.userId);
+            return res.json(createResponse(true, `Calorie intake added (${parseInt(cal)} cal, default estimate)`));
+        } catch (err) {
+            return res.status(500).json(createResponse(false, 'Failed to save calorie intake: ' + err.message));
         }
     });
 
@@ -135,8 +179,8 @@ router.delete('/deletecalorieintake', authTokenHandler, async (req, res) => {
     const userId = req.userId;
     const user = await User.findById({ _id: userId });
 
-    user.calorieIntake = user.calorieIntake.filter((item) => {
-        return item.item != item && item.date != date;
+    user.calorieIntake = user.calorieIntake.filter((entry) => {
+        return !(entry.item === item && new Date(entry.date).toISOString() === new Date(date).toISOString());
     })
     await user.save();
     res.json(createResponse(true, 'Calorie intake deleted successfully'));

@@ -1,6 +1,7 @@
 *{
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
@@ -9,7 +10,6 @@
 
 body{
   background-color: black;
-  /* color: white */
 }
 
 .mainhead1 {
@@ -26,6 +26,85 @@ body{
 
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: var(--coll);
+    background-color: var(--col1);
     box-shadow: inset 0 0 6px rgba(0, 0, 0, .5);
+}
+
+/* Popup Overlay (shared) */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+/* Landing Page */
+.landing-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+}
+
+.landing-content {
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+}
+
+.landing-content h1 {
+    -webkit-text-stroke: 1px var(--col1);
+    color: transparent;
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+.landing-content p {
+    color: #888;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.landing-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.landing-buttons button {
+    padding: 12px 40px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.landing-buttons .btn-login {
+    background-color: var(--col1);
+    color: black;
+}
+
+.landing-buttons .btn-login:hover {
+    background-color: #d4a81d;
+}
+
+.landing-buttons .btn-signup {
+    background-color: transparent;
+    color: var(--col1);
+    border: 2px solid var(--col1);
+}
+
+.landing-buttons .btn-signup:hover {
+    background-color: var(--col1);
+    color: black;
 }

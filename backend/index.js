@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const PORT = 8000
+const PORT = process.env.PORT || 8000;
 const cookieParser = require('cookie-parser');
 
 const authRoutes = require('./Routes/Auth');
@@ -15,13 +15,13 @@ const weightTrackRoutes = require('./Routes/WeightTrack');
 const waterTrackRoutes = require('./Routes/WaterTrack');
 const workoutTrackRoutes = require('./Routes/WorkoutTrack');
 const workoutRoutes = require('./Routes/WorkoutPlans');
-const reportRoutes = require('./Routes/Report');
+const reportRoutes = require('./Routes/Reports');
 
 require('dotenv').config();
 require('./db')
 
 app.use(bodyParser.json());
-const allowedOrigins = ['http://localhost:3000']; // Add more origins as needed
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001']; // Add more origins as needed
 
 app.use(
     cors({
@@ -54,6 +54,14 @@ app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the Fitness Tracking API' });
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+});
+
+server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        console.error(`Port ${PORT} is already in use. Use a different port or stop the process using it.`);
+        process.exit(1);
+    }
+    throw err;
 });

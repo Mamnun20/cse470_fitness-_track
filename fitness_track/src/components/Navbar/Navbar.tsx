@@ -1,40 +1,40 @@
-'use client'
-import React from "react"
-import fitness_logo from "@/assets/fitness_logo.png"
-import logo1 from "@/assets/logo1.png"
-import {IoIosBody} from 'react-icons/io'
+"use client"
+import React from 'react'
+import logo from '@/assets/fitness_logo.png'
+import { IoIosBody } from 'react-icons/io'
 import './Navbar.css'
 import Image from 'next/image'
-import Link from 'next/link'    
-import AuthPopup from "../AuthPopup/AuthPopup"
+import Link from 'next/link'
+import { toast } from 'react-toastify'
 
-const Navbar = () => {
-  const [isloggedin, setIsloggedin] = React.useState<boolean>(false)
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_API || 'http://localhost:8000';
 
-  const [showpopup, setShowpopup] = React.useState<boolean>(false)
+interface NavbarProps {
+    onLogout: () => void;
+}
 
-  return (
-    <nav>
-      <Image src={logo1} alt="Logo" width={360} height={360} />
-      <Link href='/'>Home</Link>
-      <Link href='/about'>About</Link>
-      <Link href='/profile'><IoIosBody /></Link>
-      {
-        isloggedin ? 
-        <button>LogOut</button> 
-        : 
-        <button
-          onClick={() => {
-          setShowpopup(true)
-        }}
-        >LogIn</button>
-      }
+const Navbar: React.FC<NavbarProps> = ({ onLogout }) => {
+    const handleLogout = async () => {
+        try {
+            await fetch(`${BACKEND_URL}/auth/logout`, {
+                method: 'POST',
+                credentials: 'include',
+            });
+            toast.success('Logged out successfully');
+        } catch {
+            // logout anyway
+        }
+        onLogout();
+    }
 
-      {
-        showpopup && <AuthPopup setShowpopup={setShowpopup} />
-      }
-    </nav>
-  )
+    return (
+        <nav>
+            <Image src={logo} alt="Logo" />
+            <Link href='/'>Home</Link>
+            <Link href='/profile'><IoIosBody /></Link>
+            <button onClick={handleLogout}>Logout</button>
+        </nav>
+    )
 }
 
 export default Navbar

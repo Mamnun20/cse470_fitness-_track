@@ -1,113 +1,65 @@
+"use client"
 import React from "react"
-import  CircularProgress from "@mui/joy/CircularProgress"
-import { AiOutlineEye } from "react-icons/ai"
+import { useRouter } from 'next/navigation'
 import './homebanner1.css'
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_API || 'http://localhost:8000';
+
 const HomeBanner1 = () => {
-  
-  const [data, setData] = React.useState<any>(null)
+  const router = useRouter()
+  const [data, setData] = React.useState<any[] | null>(null)
 
   const getData = async () => {
-    let temp = [
-        {
-            "name": "Calories Intake",
-            "value": 2000,
-            "unit": "kcal",
-            "goal": 2500,
-            "goalUnit": "kcal",
-        },
-        {   
-            "name": "Sleep",
-            "value": 8,
-            "unit": "hrs",
-            "goal": 8,
-            "goalUnit": "hrs",
-        },
-        {
-        "name": "Steps",
-        "value": 50,
-        "unit": "steps",
-        "goal": 10000,
-        "goalUnit": "steps"
-        },
-        {
-        "name": "Water",
-        "value": 2000,
-        "unit": "ml",
-        "goal": 3000,
-        "goalUnit": "ml"
-        },
-        {
-        "name": "Weight",
-        "value": 75,
-        "unit": "kg",
-        "goal": 70,
-        "goalUnit": "kg"
-        },
-        {
-        "name": "Workout",
-        "value": 2,
-        "unit": "days",
-        "goal": 6,
-        "goalUnit": "days"
-        }
-    ]
-    setData(temp)
+    try {
+      const res = await fetch(`${BACKEND_URL}/report/getreport`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const result = await res.json();
+      if (result.ok) {
+        setData(result.data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch report data:', err);
+    }
   }
-   
+
   React.useEffect(() => {
     getData()
-  }, []) 
+  }, [])
 
-
-  function simplifyFraction(numerator: number, denominator: number): [number, number] {
-    function gcd(a: number, b: number): number {
-        return b === 0 ? a : gcd(b, a % b);
-    }
-
-    const commonDivisor: number = gcd(numerator, denominator);
-
-    // Simplify the fraction
-    const simplifiedNumerator: number = numerator / commonDivisor;
-    const simplifiedDenominator: number = denominator / commonDivisor;
-
-    return [simplifiedNumerator, simplifiedDenominator];
-    }
+  if (!data) {
+    return (
+      <div className='meters'>
+        <p style={{ color: 'var(--col1)', padding: '20px' }}>Loading your dashboard...</p>
+      </div>
+    )
+  }
 
   return (
     <div className='meters'>
         {
-            data?.length > 0 && data.map((item: any, index: number) => {
+            data.map((item: any, index: number) => {
                 return (
-                <div className='card' key={index}>
-                    <div className='card-header'>
-                        <div className='card-header-box'>
-                            <div className='card-header-box-name'>{item.name}</div>
-                            <div className='card-header-box-value'>{item.value} {item.unit}</div>
+                <div
+                  className='card'
+                  key={index}
+                  onClick={() => router.push(`/report/${encodeURIComponent(item.name)}`)}
+                >
+                    <div className='card-title'>{item.name}</div>
+                    <div className='card-stats'>
+                        <div className='card-stat-box'>
+                            <span className='stat-label'>Today</span>
+                            <span className='stat-value'>{Math.round(item.value)} {item.unit}</span>
                         </div>
-                        <div className='card-header-box'>
-                            <div className='card-header-box-name'>Target</div>
-                            <div className='card-header-box-value'>{item.goal} {item.goalUnit}</div>
+                        <div className='card-stat-box'>
+                            <span className='stat-label'>Total Entries</span>
+                            <span className='stat-value'>{item.totalEntries || 0}</span>
                         </div>
                     </div>
-                    <CircularProgress
-                      color="neutral"
-                      determinate
-                      variant="solid"
-                      size="lg"
-                      value={(item.value / item.goal) * 100}
-                    >
-                    <span className= 'textincircle'>
-                        {simplifyFraction(item.value, item.goal)[0] + ' / ' + simplifyFraction(item.value, item.goal)[1]}
-                    </span>
-                    </CircularProgress>
-                    <button
-                        onClick={() => {
-                        window.location.href = `/report/${item.name}`
-                        }}
-                    >
-                    Show Report <AiOutlineEye />
-                    </button>
+                    <div className='card-goal'>
+                        Goal: {Math.round(item.goal)} {item.unit}
+                    </div>
                 </div>
                 )
             })

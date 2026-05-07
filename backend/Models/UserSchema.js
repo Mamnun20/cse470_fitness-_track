@@ -87,6 +87,22 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    profileImage: {
+        type: String,
+        default: '',
+    },
+    approved: {
+        type: Boolean,
+        default: false,
+    },
+    workoutPlanRequests: [
+        {
+            message: { type: String, required: true },
+            status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
+            adminResponse: { type: String, default: '' },
+            createdAt: { type: Date, default: Date.now },
+        }
+    ],
     sleep: [
         {
             date: {
@@ -139,6 +155,15 @@ const userSchema = new mongoose.Schema({
             },
         },
     ],
+    weeklyRoutine: {
+        Saturday: [{ type: String }],
+        Sunday: [{ type: String }],
+        Monday: [{ type: String }],
+        Tuesday: [{ type: String }],
+        Wednesday: [{ type: String }],
+        Thursday: [{ type: String }],
+        Friday: [{ type: String }],
+    },
 }, { timestamps: true });
 
 

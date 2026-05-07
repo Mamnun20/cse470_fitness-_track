@@ -1,0 +1,114 @@
+.workout-request-section {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+.workout-request-section .section-title {
+    color: var(--col1);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.request-form {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.request-form textarea {
+    flex: 1;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #eee;
+    padding: 12px;
+    font-size: 14px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.request-form textarea:focus {
+    outline: none;
+    border-color: var(--col1);
+}
+
+.request-form button {
+    background: var(--col1);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.request-form button:hover {
+    background: #d4a81d;
+}
+
+.request-form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.requests-list {
+    margin-top: 20px;
+}
+
+.requests-list h3 {
+    color: #aaa;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.request-card {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border-left: 3px solid #333;
+}
+
+.request-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.request-msg {
+    color: #ddd;
+    font-size: 14px;
+    flex: 1;
+}
+
+.request-status {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.admin-response {
+    margin-top: 8px;
+    padding: 8px 10px;
+    background: #222;
+    border-radius: 6px;
+    color: #ccc;
+    font-size: 13px;
+}
+
+.request-date {
+    display: block;
+    margin-top: 6px;
+    font-size: 11px;
+    color: #666;
+}
