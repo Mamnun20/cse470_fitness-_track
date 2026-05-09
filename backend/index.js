@@ -21,12 +21,12 @@ require('dotenv').config();
 require('./db')
 
 app.use(bodyParser.json());
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001']; // Add more origins as needed
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://127.0.0.1:3000', 'http://127.0.0.1:3001', 'http://127.0.0.1:3002']; // Add more origins as needed
 
 app.use(
     cors({
         origin: function (origin, callback) {
-            if (!origin || allowedOrigins.includes(origin)) {
+            if (!origin || origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1')) {
                 callback(null, true);
             } else {
                 callback(new Error('Not allowed by CORS'));
