@@ -86,10 +86,17 @@ router.delete('/deletewaterentry', authTokenHandler, async (req, res) => {
     const userId = req.userId;
     const user = await User.findById({ _id: userId });
 
-    user.water = user.water.filter(entry => entry.date !== date);
+    const indexToDelete = user.water.findIndex(entry => {
+        return new Date(entry.date).toISOString() === new Date(date).toISOString();
+    });
 
-    await user.save();
-    res.json(createResponse(true, 'Water entry deleted successfully'));
+    if (indexToDelete !== -1) {
+        user.water.splice(indexToDelete, 1);
+        await user.save();
+        return res.json(createResponse(true, 'Water entry deleted successfully'));
+    } else {
+        return res.status(404).json(createResponse(false, 'Entry not found'));
+    }
 });
 
 router.get('/getusergoalwater', authTokenHandler, async (req, res) => {

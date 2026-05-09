@@ -84,12 +84,18 @@ router.delete('/deleteworkoutentry', authTokenHandler, async (req, res) => {
     const userId = req.userId;
     const user = await User.findById({ _id: userId });
 
-    user.workouts = user.workouts.filter(entry => entry.date !== date);
+    const indexToDelete = user.workouts.findIndex(entry => {
+        return new Date(entry.date).toISOString() === new Date(date).toISOString();
+    });
 
-    await user.save();
-    res.json(createResponse(true, 'Workout entry deleted successfully'));
+    if (indexToDelete !== -1) {
+        user.workouts.splice(indexToDelete, 1);
+        await user.save();
+        return res.json(createResponse(true, 'Workout entry deleted successfully'));
+    } else {
+        return res.status(404).json(createResponse(false, 'Entry not found'));
+    }
 });
-
 
 // has a bug
 router.get('/getusergoalworkout', authTokenHandler, async (req, res) => {

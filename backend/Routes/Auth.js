@@ -193,7 +193,7 @@ router.post('/forgotpassword', async (req, res) => {
         const mailOptions = {
             from: 'arazkhanbd2003@gmail.com',
             to: email,
-            subject: 'FitnessFreak - Password Reset OTP',
+            subject: 'fitness_track - Password Reset OTP',
             text: `Your password reset OTP is: ${otp}\n\nThis code expires in 10 minutes.`
         };
         transporter.sendMail(mailOptions, (err) => {

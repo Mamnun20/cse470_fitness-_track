@@ -65,7 +65,7 @@ const TRACKING_CONFIG: Record<string, {
         fields: [
             { name: 'weightInKg', label: 'Weight (kg)', type: 'number', key: 'weightInKg' },
         ],
-        displayFn: (e: any) => `${e.weightInKg} kg`,
+        displayFn: (e: any) => `${e.weightInKg ?? e.weight} kg`,
     },
     'Workout': {
         addEndpoint: '/workouttrack/addworkoutentry',

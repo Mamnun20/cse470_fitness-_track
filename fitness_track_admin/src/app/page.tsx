@@ -227,7 +227,7 @@ export default function AdminDashboard() {
   return (
     <div className='admin-dashboard'>
       <header className='admin-header'>
-        <h1>FitnessFreak Admin</h1>
+        <h1>fitness_track Admin</h1>
         <button className='logout-btn' onClick={handleLogout}>Logout</button>
       </header>
 

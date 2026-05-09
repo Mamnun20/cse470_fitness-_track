@@ -86,8 +86,9 @@ router.delete('/deletesleepentry', authTokenHandler, async (req, res) => {
     const userId = req.userId;
     const user = await User.findById({ _id: userId });
 
+    // FIX: Normalize both dates to ISO strings to accurately compare their values
     user.sleep = user.sleep.filter(entry => {
-        return entry.date !== date;
+        return new Date(entry.date).toISOString() !== new Date(date).toISOString();
     });
 
     await user.save();

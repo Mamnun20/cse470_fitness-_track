@@ -5,7 +5,7 @@ import ToastClient from "../component/ToastClient";
 
 export const metadata: Metadata = {
   title: "Fitness Track Admin",
-  description: "Admin dashboard for FitnessFreak",
+  description: "Admin dashboard for fitness_track",
 };
 
 export default function RootLayout({

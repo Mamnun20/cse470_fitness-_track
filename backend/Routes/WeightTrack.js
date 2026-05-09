@@ -84,13 +84,18 @@ router.delete('/deleteweightentry', authTokenHandler, async (req, res) => {
     const userId = req.userId;
     const user = await User.findById({ _id: userId });
 
-    user.weight = user.weight.filter(entry => entry.date !== date);
+    const indexToDelete = user.weight.findIndex(entry => {
+        return new Date(entry.date).toISOString() === new Date(date).toISOString();
+    });
 
-    await user.save();
-    res.json(createResponse(true, 'Weight entry deleted successfully'));
+    if (indexToDelete !== -1) {
+        user.weight.splice(indexToDelete, 1);
+        await user.save();
+        return res.json(createResponse(true, 'Weight entry deleted successfully'));
+    } else {
+        return res.status(404).json(createResponse(false, 'Entry not found'));
+    }
 });
-
-
 // has a bug
 router.get('/getusergoalweight', authTokenHandler, async (req, res) => {
     const userId = req.userId;

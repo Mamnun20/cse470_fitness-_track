@@ -22,7 +22,7 @@ const METRIC_CONFIG: Record<string, { endpoint: string; limitEndpoint: string; g
     'Sleep': { endpoint: 'sleeptrack', limitEndpoint: '/getsleepbylimit', getByDateEndpoint: '/getsleepbydate', deleteEndpoint: '/deletesleepentry', valueKey: 'durationInHrs', unit: 'hrs', displayFn: (e) => `${e.durationInHrs} hours` },
     'Steps': { endpoint: 'steptrack', limitEndpoint: '/getstepsbylimit', getByDateEndpoint: '/getstepsbydate', deleteEndpoint: '/deletestepentry', valueKey: 'steps', unit: 'steps', displayFn: (e) => `${e.steps} steps` },
     'Water': { endpoint: 'watertrack', limitEndpoint: '/getwaterbylimit', getByDateEndpoint: '/getwaterbydate', deleteEndpoint: '/deletewaterentry', valueKey: 'amountInMilliliters', unit: 'ml', displayFn: (e) => `${e.amountInMilliliters} ml` },
-    'Weight': { endpoint: 'weighttrack', limitEndpoint: '/getweightbylimit', getByDateEndpoint: '/getweightbydate', deleteEndpoint: '/deleteweightentry', valueKey: 'weightInKg', unit: 'kg', displayFn: (e) => `${e.weightInKg} kg` },
+    'Weight': { endpoint: 'weighttrack', limitEndpoint: '/getweightbylimit', getByDateEndpoint: '/getweightbydate', deleteEndpoint: '/deleteweightentry', valueKey: 'weight', unit: 'kg', displayFn: (e) => `${e.weight ?? e.weightInKg} kg` },
     'Workout': { endpoint: 'workouttrack', limitEndpoint: '/getworkoutsbylimit', getByDateEndpoint: '/getworkoutsbydate', deleteEndpoint: '/deleteworkoutentry', valueKey: 'durationInMinutes', unit: 'min', displayFn: (e) => `${e.exercise} - ${e.durationInMinutes} min` },
 };
 
@@ -53,7 +53,7 @@ const Page = () => {
                 const dateMap = new Map<string, number>();
                 sorted.forEach((entry: any) => {
                     const dateKey = new Date(entry.date).toDateString();
-                    const val = entry[config.valueKey] || 0;
+                    const val = entry[config.valueKey] ?? entry.weightInKg ?? 0;
                     if (type === 'Weight') dateMap.set(dateKey, val);
                     else dateMap.set(dateKey, (dateMap.get(dateKey) || 0) + val);
                 });

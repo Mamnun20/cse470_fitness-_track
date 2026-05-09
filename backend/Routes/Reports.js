@@ -58,10 +58,8 @@ router.get('/getreport', authTokenHandler, async (req, res) => {
         }
     });
 
-    // get today's weight
-    let weight = user.weight[user.weight.length - 1].weight;
-    // get today's height
-    let height = user.height[user.height.length - 1].height;
+let weight = user.weight?.length > 0 ? user.weight[user.weight.length - 1].weight : 0;
+let height = user.height?.length > 0 ? user.height[user.height.length - 1].height : 0;
 
     // get this week's workout
     let workout = 0;
@@ -76,8 +74,8 @@ router.get('/getreport', authTokenHandler, async (req, res) => {
     // get goal calorieIntake
 
     let maxCalorieIntake = 0;
-    let heightInCm = parseFloat(user.height[user.height.length - 1].height);
-    let weightInKg = parseFloat(user.weight[user.weight.length - 1].weight);
+    let heightInCm = parseFloat(user.height[user.height.length - 1]?.height) || 0;
+    let weightInKg = parseFloat(user.weight[user.weight.length - 1]?.weight) || 0;
     let age = new Date().getFullYear() - new Date(user.dob).getFullYear();
     let BMR = 0;
     let gender = user.gender;

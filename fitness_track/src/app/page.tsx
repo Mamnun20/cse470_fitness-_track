@@ -51,8 +51,8 @@ export default function Home() {
     return (
       <div className="landing-page">
         <div className="landing-content">
-          <Image src={logo} alt="FitnessFreak Logo" width={180} height={90} style={{ marginBottom: '20px' }} />
-          <h1>FitnessFreak</h1>
+          <Image src={logo} alt="fitness_track Logo" width={180} height={90} style={{ marginBottom: '20px' }} />
+          <h1>fitness_track</h1>
           <p>Track your calories, sleep, steps, water, weight, and workouts all in one place.</p>
           <div className="landing-buttons">
             <button className="btn-login" onClick={() => { setAuthMode('login'); setShowAuthPopup(true) }}>

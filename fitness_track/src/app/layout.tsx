@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'FitnessFreak - Track Your Fitness',
+  title: 'fitness_track - Track Your Fitness',
   description: 'Track calories, sleep, steps, water, weight, and workouts',
 }
 
